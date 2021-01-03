@@ -10,16 +10,24 @@ public class Cliente {
 		try {
 			s = new Socket("localhost", 8000);
 			dis = new DataInputStream(s.getInputStream());
+			DataInputStream entrada= new DataInputStream(System.in);
+			boolean b=false;
 			String linea;
 			pw = new PrintWriter(s.getOutputStream(),true);
-
-			//DataInputStream entrada = new DataInputStream(System.in);
-			pw.println("Hola soy el cliente");
-			while ((linea=dis.readLine())!=null) {
+			linea=dis.readLine();
+			//while ((linea=dis.readLine())!=null) {
+			while (linea!="fin") {
 				///if (linea.contains("Introduce una letra")) {
 					System.out.println(linea);
-	
-				}
+					
+					
+						System.out.println("Introduzca una letra"); 
+						String letra =entrada.readLine(); 
+						pw.println(letra);
+						linea=dis.readLine();
+					}
+					
+				
 				
 			//}*/
 			//String hola=entrada.readLine();

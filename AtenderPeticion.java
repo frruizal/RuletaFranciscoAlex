@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
 public class AtenderPeticion implements Runnable {
 	private Socket cliente1=null;
@@ -18,22 +19,47 @@ public class AtenderPeticion implements Runnable {
 		this.cliente3 = s3;
 		
 	}
-
+	
 	public void run() {
       // Concurso c =new Concurso(cliente1,cliente2,cliente3);
 		System.out.println("Hola bienvenido a la ruleta de la suerte");
 		try {
 			DataInputStream dis=new DataInputStream(cliente1.getInputStream());
 			PrintWriter pw=new PrintWriter(cliente1.getOutputStream(),true);
-			pw.println("Hola vengo del server y soy el cliente1");
-			String linea=dis.readLine();
 			
-			//while((linea=dis.readLine())!=null) {
-				System.out.println(linea);
-
-			//}
+			Random randon =new Random();
+			String palabra="futbol";
+			char[] palabraGuiones=new char[palabra.length()];
+			String palabraResolver="";
+			for (int i=0; i<palabraGuiones.length;i++) {
+				palabraGuiones[i]='_'+' ';
+				palabraResolver+= "_ ";
+			}
+			pw.println("La palabra: " + palabraResolver);
 			
-			System.out.println("Adios");
+			boolean b=false;
+			while(b==false) {
+				String linea=dis.readLine();
+				
+				for (int i=0; i<palabra.length();i++) {
+					if (palabra.charAt(i) == linea.charAt(0)) { //que este la palabra introducida
+						//palabraGuiones +=palabra.charAt(i);
+						//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
+						palabraGuiones[i]=linea.charAt(0);
+					}
+					
+					/*
+					 * if(palabraGuiones.equals(palabra)) {
+						pw.println("fin");
+					}
+					*/
+				}
+				
+				pw.println(palabraGuiones);
+				System.out.println(palabraGuiones);
+			}
+			pw.println("fin");
+			System.out.println("sefini");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
