@@ -25,10 +25,12 @@ public class AtenderPeticion implements Runnable {
 		System.out.println("Hola bienvenido a la ruleta de la suerte");
 		try {
 			DataInputStream dis1=new DataInputStream(cliente1.getInputStream());
-			DataInputStream dis2=new DataInputStream(cliente1.getInputStream());
-			DataInputStream dis3=new DataInputStream(cliente1.getInputStream());
+			DataInputStream dis2=new DataInputStream(cliente2.getInputStream());
+			DataInputStream dis3=new DataInputStream(cliente3.getInputStream());
 			
-			PrintWriter pw=new PrintWriter(cliente1.getOutputStream(),true);
+			PrintWriter pw1=new PrintWriter(cliente1.getOutputStream(),true);
+			PrintWriter pw2=new PrintWriter(cliente2.getOutputStream(),true);
+			PrintWriter pw3=new PrintWriter(cliente3.getOutputStream(),true);
 			
 			Random randon =new Random();
 			String palabra="futbol";
@@ -38,27 +40,50 @@ public class AtenderPeticion implements Runnable {
 				palabraGuiones[i]='_' + ' ';
 				palabraResolver+= "_ ";
 			}
-			pw.println("La palabra: " + palabraResolver);
-			int j=0;
+			
+			pw1.println("La palabra: " + palabraResolver);
+			pw2.println("La palabra: " + palabraResolver);
+			pw3.println("La palabra: " + palabraResolver);
+			boolean estaLetra=false;
 			boolean b=false;
+			int turno=1;
 			
 			//String linea2=dis2.readLine();
 			while(b==false) {
-
+				//String linea=null;
 				String linea=dis1.readLine();
-				if(linea==palabra) {
+				
+				/*if (turno==1) {
+					linea=dis1.readLine();
+					pw1.println("Es tu turno");
+					pw2.println("NO es tu turno");
+					pw3.println("NO es tu turno");
+				}
+				if (turno==2) {
+					linea=dis2.readLine();
+					pw2.println("Es tu turno");
+					pw1.println("NO es tu turno");
+					pw3.println("NO es tu turno");
+				}
+				if (turno==3) {
+					linea=dis3.readLine();
+					pw3.println("Es tu turno");
+					pw1.println("NO es tu turno");
+					pw2.println("NO es tu turno");
+				}*/
+				
+				/*if(linea==palabra) {
 					System.out.println("hodlsfkajlfkdjdlkd");
 					b=true;
 				}
 				
-				else {
+				else {*/
 				for (int i=0; i<palabra.length();i++) {
-					
 					if (palabra.charAt(i) == linea.charAt(0)) { //que este la palabra introducida
 						//palabraGuiones +=palabra.charAt(i);
 						//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
 						palabraGuiones[i]=linea.charAt(0);
-						j++;
+						estaLetra=true;
 					}					
 					/*
 					 * if(palabraGuiones.equals(palabra)) {
@@ -73,17 +98,30 @@ public class AtenderPeticion implements Runnable {
 					}	*/
 				}
 					
-					/*if (j==0) {
-						System.out.println("La letra introducida no esta:");
-						linea=dis1.readLine();
-					}
-					else {
+				if (!estaLetra) {
+					System.out.println("La letra introducida no esta:");
+					
+					if(turno==1) {
+						turno=2;
+						pw1.println("La letra no esta: Has perdido el turno");
 						linea=dis2.readLine();
-					}*/
+					}
+					if(turno==2) {
+						turno=3;
+						pw2.println("La letra no esta: Has perdido el turno");
+						linea=dis3.readLine();
+					}
+					if(turno==3) {
+						turno=1;
+						pw3.println("La letra no esta: Has perdido el turno");
+						linea=dis1.readLine();
+					}					
 				}
-				pw.println(palabraGuiones);
+				//}
+				pw1.println(palabraGuiones);
+				pw2.println(palabraGuiones);
+				pw3.println(palabraGuiones);
 				System.out.println(palabraGuiones);
-				
 			}
 			//pw.println("fin");
 			System.out.println("sefini");
