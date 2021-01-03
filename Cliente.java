@@ -18,14 +18,14 @@ public class Cliente {
 			//while ((linea=dis.readLine())!=null) {
 			while (linea!="fin") {
 				///if (linea.contains("Introduce una letra")) {
-					System.out.println(linea);
+				System.out.println(linea);
 					
 					
 						System.out.println("Introduzca una letra"); 
 						String letra =entrada.readLine(); 
 						pw.println(letra);
 						linea=dis.readLine();
-					}
+			}
 					
 				
 				

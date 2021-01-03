@@ -24,7 +24,10 @@ public class AtenderPeticion implements Runnable {
       // Concurso c =new Concurso(cliente1,cliente2,cliente3);
 		System.out.println("Hola bienvenido a la ruleta de la suerte");
 		try {
-			DataInputStream dis=new DataInputStream(cliente1.getInputStream());
+			DataInputStream dis1=new DataInputStream(cliente1.getInputStream());
+			DataInputStream dis2=new DataInputStream(cliente1.getInputStream());
+			DataInputStream dis3=new DataInputStream(cliente1.getInputStream());
+			
 			PrintWriter pw=new PrintWriter(cliente1.getOutputStream(),true);
 			
 			Random randon =new Random();
@@ -32,33 +35,57 @@ public class AtenderPeticion implements Runnable {
 			char[] palabraGuiones=new char[palabra.length()];
 			String palabraResolver="";
 			for (int i=0; i<palabraGuiones.length;i++) {
-				palabraGuiones[i]='_'+' ';
+				palabraGuiones[i]='_' + ' ';
 				palabraResolver+= "_ ";
 			}
 			pw.println("La palabra: " + palabraResolver);
-			
+			int j=0;
 			boolean b=false;
+			
+			//String linea2=dis2.readLine();
 			while(b==false) {
-				String linea=dis.readLine();
+
+				String linea=dis1.readLine();
+				if(linea==palabra) {
+					System.out.println("hodlsfkajlfkdjdlkd");
+					b=true;
+				}
 				
+				else {
 				for (int i=0; i<palabra.length();i++) {
+					
 					if (palabra.charAt(i) == linea.charAt(0)) { //que este la palabra introducida
 						//palabraGuiones +=palabra.charAt(i);
 						//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
 						palabraGuiones[i]=linea.charAt(0);
-					}
-					
+						j++;
+					}					
 					/*
 					 * if(palabraGuiones.equals(palabra)) {
 						pw.println("fin");
 					}
-					*/
+						
+					if (palabra.charAt(i) == linea2.charAt(0)) { //que este la palabra introducida
+						//palabraGuiones +=palabra.charAt(i);
+						//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
+						palabraGuiones[i]=linea2.charAt(0);
+						j++;
+					}	*/
 				}
-				
+					
+					/*if (j==0) {
+						System.out.println("La letra introducida no esta:");
+						linea=dis1.readLine();
+					}
+					else {
+						linea=dis2.readLine();
+					}*/
+				}
 				pw.println(palabraGuiones);
 				System.out.println(palabraGuiones);
+				
 			}
-			pw.println("fin");
+			//pw.println("fin");
 			System.out.println("sefini");
 			
 		} catch (IOException e) {
