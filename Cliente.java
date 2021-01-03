@@ -8,26 +8,39 @@ public class Cliente {
 		DataInputStream dis = null;
 		PrintWriter pw = null;
 		try {
-			s = new Socket("localhost", 7777);
+			s = new Socket("localhost", 8000);
 			dis = new DataInputStream(s.getInputStream());
-			String linea = dis.readLine();
-			pw = new PrintWriter(s.getOutputStream());
+			String linea;
+			pw = new PrintWriter(s.getOutputStream(),true);
 
-			DataInputStream entrada = new DataInputStream(System.in);
-
-			while (linea != null) {
-				if (linea.contains("Introduce una letra")) {
+			//DataInputStream entrada = new DataInputStream(System.in);
+			pw.println("Hola soy el cliente");
+			while ((linea=dis.readLine())!=null) {
+				///if (linea.contains("Introduce una letra")) {
 					System.out.println(linea);
-					pw.println(entrada.readLine());
-				} else {
-					System.out.println(linea);
+	
 				}
-				linea = dis.readLine();
-			}
+				
+			//}*/
+			//String hola=entrada.readLine();
+			//System.out.println(hola);
+			
+			System.out.println("Adios");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+			try {
+				if(s!=null) {
+					s.close();
+				}
+			}
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 
-	}
-}
+	}}}
+

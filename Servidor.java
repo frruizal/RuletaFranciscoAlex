@@ -10,13 +10,15 @@ public class Servidor{
 		ServerSocket ss = null;
 		ExecutorService pool = Executors.newCachedThreadPool();
 		try {
-			ss = new ServerSocket(7777);
+			ss = new ServerSocket(8000);
 			while(true) {
 				try {
+					
 					final Socket cliente1 = ss.accept();
 					final Socket cliente2 = ss.accept();
 					final Socket cliente3 = ss.accept();
-					pool.execute(new AtenderPeticion(cliente1,cliente2, cliente3));
+					pool.execute(new AtenderPeticion(cliente1,cliente2,cliente3));
+					
 				}catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -24,7 +26,17 @@ public class Servidor{
 		}catch (IOException e) {
 			e.printStackTrace();
 		}finally{
-			pool.shutdown();
+			try {
+				pool.shutdown();
+				if(ss!=null) {
+					ss.close();
+				}
+			}
+			
+			catch (IOException e) {
+			e.printStackTrace();
+			}
+			
 		}
 	}
 
