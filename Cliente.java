@@ -1,6 +1,7 @@
 import java.io.DataInputStream;
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Cliente {
 	public static void main(String[] args) {
@@ -10,21 +11,28 @@ public class Cliente {
 		try {
 			s = new Socket("localhost", 8000);
 			dis = new DataInputStream(s.getInputStream());
-			DataInputStream entrada= new DataInputStream(System.in);
+			Scanner entrada= new Scanner(System.in);
 			boolean b=false;
-			String linea;
+			String linea=null;
 			pw = new PrintWriter(s.getOutputStream(),true);
-			linea=dis.readLine();
+			
 			//while ((linea=dis.readLine())!=null) {
 			while (linea!="fin") {
 				///if (linea.contains("Introduce una letra")) {
+				System.out.println("Esperando al turno");
+				linea=dis.readLine();	
 				System.out.println(linea);
-					
-					
-						System.out.println("Introduzca una letra"); 
-						String letra =entrada.readLine(); 
-						pw.println(letra);
-						linea=dis.readLine();
+				if(linea=="fin") {
+					System.out.println("------Fin de la partida---------");
+				}
+				if(linea.startsWith("Es tu turno")) {
+					System.out.println("Tu turno: Introduzca una letra"); 
+					String letra =entrada.nextLine(); 
+					pw.println(letra);
+				}
+						
+						
+						
 			}
 					
 				
