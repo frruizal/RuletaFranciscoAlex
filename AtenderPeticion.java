@@ -212,15 +212,16 @@ public class AtenderPeticion implements Runnable {
 										
 				}
 				//}
-				pw1.println("El panel a resolver es "+palabraGuiones);
-				pw2.println("El panel a resolver es "+palabraGuiones);
-				pw3.println("El panel a resolver es "+palabraGuiones);
+				pw1.println(palabraGuiones);
+				pw2.println(palabraGuiones);
+				pw3.println(palabraGuiones);
 				
 				pw1.println("Llevas acumulado "+ contador1 +" euros");
 				pw2.println("Llevas acumulado "+ contador2 +" euros");
 				pw3.println("Llevas acumulado "+ contador3 +" euros");
 				
-				System.out.println("El panel a resolver es "+palabraGuiones);
+				System.out.println("El panel a resolver es");
+				System.out.println(palabraGuiones);
 				System.out.println("El jugador 1 lleva " + contador1 + "€");
 				System.out.println("El jugador 2 lleva " + contador2 + "€");
 				System.out.println("El jugador 3 lleva " + contador3 + "€");

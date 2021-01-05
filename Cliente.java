@@ -13,25 +13,28 @@ public class Cliente {
 			dis = new DataInputStream(s.getInputStream());
 			Scanner entrada= new Scanner(System.in);
 			boolean b=false;
-			String linea="";
+			String linea;
 			pw = new PrintWriter(s.getOutputStream(),true);
 			
-			while (linea!=null) {
+			while ((linea=dis.readLine())!=null) {
 				
-				linea=dis.readLine();	
+					
 				System.out.println(linea);
 				
 				if(linea.startsWith("La casilla en la que has caido es")) {
-					System.out.println("Introduzca una letra"); 
+					System.out.println("Introduzca una LETRA o la palabra en caso de que quiera RESOLVER"); 
 					String letra =entrada.nextLine(); 
 					pw.println(letra);
 				}
 				else {
-				//	System.out.println("Esperando al turno");
+					//System.out.println("Esperando al turno");
+					
 				}
+				
 									
 			}
 			
+
 			System.out.println("Adios");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
