@@ -35,6 +35,10 @@ public class AtenderPeticion implements Runnable {
 			
 			Random randon =new Random();
 			String palabra="futbol";
+			int [] premios = {25,50,75,100,150,200,0,-1};
+			int contador1=0;
+			int contador2=0;
+			int contador3=0;
 			char[] palabraGuiones=new char[palabra.length()];
 			String palabraResolver="";
 			for (int i=0; i<palabraGuiones.length;i++) {
@@ -46,6 +50,7 @@ public class AtenderPeticion implements Runnable {
 			pw2.println("La palabra: " + palabraResolver);
 			pw3.println("La palabra: " + palabraResolver);
 			boolean estaLetra=false;
+			boolean resolver=false;
 			boolean b=false;
 			int turno=1;
 			String linea = null;
@@ -53,95 +58,153 @@ public class AtenderPeticion implements Runnable {
 			//String linea2=dis2.readLine();
 			while(b==false) {
 				estaLetra=false;
+				resolver=false;
+				int valor = premios[(int) Math.floor(Math.random() * premios.length)];
 				if(turno==1) {
-					pw1.println("Es tu turno jugador 1");
-					linea=dis1.readLine();
+					pw1.println("Tu turno jugador 1");
+					
+					if(valor!=-1 && valor!=0) {
+						pw1.println("La casilla en la que has caido es: " + valor);
+						linea=dis1.readLine();
+					}else {
+						if(valor==0) {
+							pw1.println("Has caido en el pierde turno");
+							pw1.println("Has perdido el turno");
+							turno = 2;
+						}else {
+							pw1.println("Has caido en la quiebra");
+							pw1.println("Has perdido el turno y todo tu dinero");
+							turno = 2;
+							contador1=0;
+						}
+					}
+					
 					//pw1.println("Es tu turno");
 				}
 				else {
 					if(turno==2) {
-						pw2.println("Es tu turno jugador 2");
-						linea=dis2.readLine();
+						pw2.println("Tu turno jugador 2");
+						
+						if(valor!=-1 && valor!=0) {
+							
+							pw2.println("La casilla en la que has caido es: " + valor);
+							linea=dis2.readLine();
+						}else {
+							if(valor==0) {
+								pw2.println("Has caido en el pierde turno");
+								pw2.println("Has perdido el turno");
+								turno = 3;
+							}else {
+								pw2.println("Has caido en la quiebra");
+								pw2.println("Has perdido el turno y todo tu dinero");
+								turno = 3;
+								contador2=0;
+							}
+						}
 						
 					}
 					else {
 						if(turno==3) {
-							pw3.println("Es tu turno jugador 3");
-							linea=dis3.readLine();
+							pw3.println("Tu turno jugador 3");
+							if(valor!=-1 && valor!=0) {
+								pw3.println("La casilla en la que has caido es: " + valor);
+								linea=dis3.readLine();
+							}else {
+								if(valor==0) {
+									pw3.println("Has caido en el pierde turno");
+									pw3.println("Has perdido el turno");
+									turno = 1;
+								}else {
+									pw3.println("Has caido en la quiebra");
+									pw3.println("Has perdido el turno y todo tu dinero");
+									turno = 1;
+									contador3=0;
+								}
+							}
 							
 						}
 					}
 				}
-				//String linea=null;
 				
 				
-				/*if (turno==1) {
-					linea=dis1.readLine();
-					pw1.println("Es tu turno");
-					pw2.println("NO es tu turno");
-					pw3.println("NO es tu turno");
-				}
-				if (turno==2) {
-					linea=dis2.readLine();
-					pw2.println("Es tu turno");
-					pw1.println("NO es tu turno");
-					pw3.println("NO es tu turno");
-				}
-				if (turno==3) {
-					linea=dis3.readLine();
-					pw3.println("Es tu turno");
-					pw1.println("NO es tu turno");
-					pw2.println("NO es tu turno");
-				}*/
-				
-				/*if(linea==palabra) {
-					System.out.println("hodlsfkajlfkdjdlkd");
-					b=true;
-				}
-				
-				else {*/
-				for (int i=0; i<palabra.length();i++) {
-					if (palabra.charAt(i) == linea.charAt(0)) { //que este la palabra introducida
-						//palabraGuiones +=palabra.charAt(i);
-						//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
-						palabraGuiones[i]=linea.charAt(0);
-						estaLetra=true;
-					}					
-					/*
-					 * if(palabraGuiones.equals(palabra)) {
-						pw.println("fin");
+				if(linea.length()==1 && valor!=-1 && valor!=0) {
+					
+					for (int i=0; i<palabra.length();i++) {
+						if (palabra.charAt(i) == linea.charAt(0)) { //que este la palabra introducida
+							//palabraGuiones +=palabra.charAt(i);
+							//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
+							palabraGuiones[i]=linea.charAt(0);
+							estaLetra=true;
+							
+							if(turno==1) {
+								contador1 = contador1 + valor;
+								//pw1.println("Es tu turno");
+							}
+							else {
+								if(turno==2) {
+									contador2 = contador2 + valor;
+									
+								}
+								else {
+									if(turno==3) {
+										contador3 = contador3 + valor;
+										
+									}
+								}
+							}
+							
+						}					
 					}
-						
-					if (palabra.charAt(i) == linea2.charAt(0)) { //que este la palabra introducida
-						//palabraGuiones +=palabra.charAt(i);
-						//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
-						palabraGuiones[i]=linea2.charAt(0);
-						j++;
-					}	*/
+					
+				}else {
+					if(palabra.equals(linea)) {
+						b=true;
+						resolver=true;
+						System.out.println("Has acertado el panel.");
+					}
 				}
 					
-				if (estaLetra==false) {
+				if (estaLetra==false && linea.length()==1 && valor>0) {
 					System.out.println("La letra "+linea.charAt(0)+" no esta");
 					
 					if(turno==1) {
 						turno=2;
 						pw1.println("La letra no esta: Has perdido el turno");
-						/*pw2.println("El jugador 1 ha fallado con la letra "+ linea.charAt(0)+", es tu turno.");
-						pw3.println("El jugador 1 ha fallado con la letra "+ linea.charAt(0));*/
 					}
 					else {
 						if(turno==2) {
 							turno=3;
 							pw2.println("La letra no esta: Has perdido el turno");
-							/*pw1.println("El jugador 2 ha fallado con la letra "+ linea.charAt(0));
-							pw3.println("El jugador 2 ha fallado con la letra "+ linea.charAt(0)+", es tu turno.");*/
 						}
 						else {
 							if(turno==3) {
 								turno=1;
 								pw3.println("La letra no esta: Has perdido el turno");
-								/*pw1.println("El jugador 3 ha fallado con la letra "+ linea.charAt(0)+", es tu turno.");
-								pw2.println("El jugador 3 ha fallado con la letra "+ linea.charAt(0));*/
+							}
+						}
+						
+					}
+										
+				}
+				
+				if (resolver==false && linea.length()>1) {
+					System.out.println("La resolución no es correcta");
+					
+					if(turno==1) {
+						turno=2;
+						pw1.println("Has fallado el panel: Has perdido el turno");
+						
+					}
+					else {
+						if(turno==2) {
+							turno=3;
+							pw2.println("Has fallado el panel: Has perdido el turno");
+							
+						}
+						else {
+							if(turno==3) {
+								turno=1;
+								pw3.println("Has fallado el panel: Has perdido el turno");
 							}
 						}
 						
@@ -149,18 +212,28 @@ public class AtenderPeticion implements Runnable {
 										
 				}
 				//}
-				pw1.println(palabraGuiones);
-				pw2.println(palabraGuiones);
-				pw3.println(palabraGuiones);
-				System.out.println(palabraGuiones);
+				pw1.println("El panel a resolver es "+palabraGuiones);
+				pw2.println("El panel a resolver es "+palabraGuiones);
+				pw3.println("El panel a resolver es "+palabraGuiones);
 				
-				if(String.valueOf(palabraGuiones).equals(palabra)) {
+				pw1.println("Llevas acumulado "+ contador1 +" euros");
+				pw2.println("Llevas acumulado "+ contador2 +" euros");
+				pw3.println("Llevas acumulado "+ contador3 +" euros");
+				
+				System.out.println("El panel a resolver es "+palabraGuiones);
+				System.out.println("El jugador 1 lleva " + contador1 + "€");
+				System.out.println("El jugador 2 lleva " + contador2 + "€");
+				System.out.println("El jugador 3 lleva " + contador3 + "€");
+				
+				if(String.valueOf(palabraGuiones).equals(palabra)) { //Si se ha resuelto el panel
 					b=true;
 				}
 			}
-			pw1.println("fin"); pw2.println("fin"); pw3.println("fin");
-			System.out.println("sefini");
-			
+			pw1.println("----------FIN DEL PANEL----------"); 
+			pw2.println("----------FIN DEL PANEL----------"); 
+			pw3.println("----------FIN DEL PANEL----------");
+			System.out.println("----------FIN DEL PANEL----------");
+			System.out.println("----------LO HA RESUELTO EL JUGADOR "+ turno+"----------");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,4 +255,6 @@ public class AtenderPeticion implements Runnable {
 		}
     }
 }
+
+
 
