@@ -33,26 +33,40 @@ public class AtenderPeticion implements Runnable {
 			PrintStream pw2=new PrintStream(cliente2.getOutputStream(),true);
 			PrintStream pw3=new PrintStream(cliente3.getOutputStream(),true);
 			
-			Random randon =new Random();
-			String palabra="futbol";
-			int [] premios = {25,50,75,100,150,200,0,-1};
-			int contador1=0;
-			int contador2=0;
-			int contador3=0;
+			Random randon =new Random(); //Para que los paneles sean randon
+			String paneles[] =new String[5];
+			paneles[0]="futbol";
+			paneles[1]="universidad";
+			paneles[2]="ramdom";
+			paneles[3]="aprobado";
+			paneles[4]="campeones";
+			int aleatorio=randon.nextInt(5);
+			String palabra=paneles[aleatorio];
+				 
+			int [] premios = {25,50,75,100,150,200,0,-1}; //Para que los premios sean random
+			int contador1=0; //marcador del primer jugador
+			int contador2=0; //marcador del segundo jugador
+			int contador3=0; //marcador del tercer jugador
+			
 			char[] palabraGuiones=new char[palabra.length()];
 			String palabraResolver="";
-			for (int i=0; i<palabraGuiones.length;i++) {
-				palabraGuiones[i]='_' + ' ';
-				palabraResolver+= "_ ";
-			}
 			
+			for (int i=0; i<palabra.length();i++) { //Para poner las palabras en caracteres _ _ _ ...
+				//palabraGuiones[cn]='_';
+				//cn++;
+				palabraGuiones[i]='-';
+				//cn++;
+				palabraResolver+= "_ ";
+				
+			}
 			pw1.println("La palabra: " + palabraResolver);
 			pw2.println("La palabra: " + palabraResolver);
 			pw3.println("La palabra: " + palabraResolver);
-			boolean estaLetra=false;
-			boolean resolver=false;
+			
+			boolean estaLetra=false; //Para ver si la letra dicha por el jugador esta o no
+			boolean resolver=false; //Para ver si se ha resuelto bien el panel o no
 			boolean b=false;
-			int turno=1;
+			int turno=1; //Para ver que jugador tiene el turno
 			String linea = null;
 			
 			//String linea2=dis2.readLine();
@@ -62,7 +76,6 @@ public class AtenderPeticion implements Runnable {
 				int valor = premios[(int) Math.floor(Math.random() * premios.length)];
 				if(turno==1) {
 					pw1.println("Tu turno jugador 1");
-					
 					if(valor!=-1 && valor!=0) {
 						pw1.println("La casilla en la que has caido es: " + valor);
 						linea=dis1.readLine();
@@ -79,14 +92,12 @@ public class AtenderPeticion implements Runnable {
 						}
 					}
 					
-					//pw1.println("Es tu turno");
+					
 				}
 				else {
 					if(turno==2) {
 						pw2.println("Tu turno jugador 2");
-						
 						if(valor!=-1 && valor!=0) {
-							
 							pw2.println("La casilla en la que has caido es: " + valor);
 							linea=dis2.readLine();
 						}else {
@@ -127,18 +138,21 @@ public class AtenderPeticion implements Runnable {
 				}
 				
 				
-				if(linea.length()==1 && valor!=-1 && valor!=0) {
+				if(linea.length()==1 && valor!=-1 && valor!=0) { //Que se haya introducido una letra
 					
 					for (int i=0; i<palabra.length();i++) {
-						if (palabra.charAt(i) == linea.charAt(0)) { //que este la palabra introducida
+						if (palabra.charAt(i) == linea.charAt(0)) { //que este la letra introducida
 							//palabraGuiones +=palabra.charAt(i);
 							//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
 							palabraGuiones[i]=linea.charAt(0);
 							estaLetra=true;
-							
+							if(linea.charAt(0)=='a'||linea.charAt(0)=='e'||linea.charAt(0)=='i'||linea.charAt(0)=='o'||linea.charAt(0)=='u') {
+								valor=-50;
+							}
 							if(turno==1) {
+								
 								contador1 = contador1 + valor;
-								//pw1.println("Es tu turno");
+								
 							}
 							else {
 								if(turno==2) {

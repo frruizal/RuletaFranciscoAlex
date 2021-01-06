@@ -23,6 +23,7 @@ public class Cliente {
 				
 				if(linea.startsWith("La casilla en la que has caido es")) {
 					System.out.println("Introduzca una LETRA o la palabra en caso de que quiera RESOLVER"); 
+					System.out.println("Para comprar una VOCAL solo la tienes que introducir: Perderas 50 euros"); 
 					String letra =entrada.nextLine(); 
 					pw.println(letra);
 				}
@@ -35,7 +36,7 @@ public class Cliente {
 			}
 			
 
-			System.out.println("Adios");
+			System.out.println("FIN DEL CONCURSO: Cliente desconectado");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
