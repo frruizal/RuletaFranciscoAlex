@@ -23,7 +23,7 @@ public class AtenderPeticion implements Runnable {
 	
 	public void run() {
       // Concurso c =new Concurso(cliente1,cliente2,cliente3);
-		System.out.println("Hola bienvenido a la ruleta de la suerte");
+		System.out.println("----------RULETA DE LA SUERTE----------");
 		try {
 			DataInputStream dis1=new DataInputStream(cliente1.getInputStream());
 			DataInputStream dis2=new DataInputStream(cliente2.getInputStream());
@@ -35,11 +35,11 @@ public class AtenderPeticion implements Runnable {
 			
 			Random randon =new Random(); //Para que los paneles sean randon
 			String paneles[] =new String[5];
-			paneles[0]="futbol";
-			paneles[1]="universidad";
-			paneles[2]="ramdom";
-			paneles[3]="aprobado";
-			paneles[4]="campeones";
+			paneles[0]="sistemas distribuidos es muy divertido";
+			paneles[1]="esta ruleta va a ser un diez";
+			paneles[2]="a por el bote oe";
+			paneles[3]="la ruleta de la suerte";
+			paneles[4]="nos gusta mucho programar hilos";
 			int aleatorio=randon.nextInt(5);
 			String palabra=paneles[aleatorio];
 				 
@@ -49,23 +49,29 @@ public class AtenderPeticion implements Runnable {
 			int contador3=0; //marcador del tercer jugador
 			
 			char[] palabraGuiones=new char[palabra.length()];
-			String palabraResolver="";
 			
-			for (int i=0; i<palabra.length();i++) { //Para poner las palabras en caracteres _ _ _ ...
-				//palabraGuiones[cn]='_';
-				//cn++;
-				palabraGuiones[i]='-';
-				//cn++;
-				palabraResolver+= "_ ";
-				
+			for (int i=0; i<palabra.length();i++) { //Para poner las palabras en caracteres ----- ...
+				if(palabra.charAt(i)==' ') {
+					palabraGuiones[i]=' ';
+					
+				}else {
+					palabraGuiones[i]='-';
+					
+				}
 			}
-			pw1.println("La palabra: " + palabraResolver);
-			pw2.println("La palabra: " + palabraResolver);
-			pw3.println("La palabra: " + palabraResolver);
-			
+			pw1.println("Bienvenido a la ruleta de la suerte");
+			pw2.println("Bienvenido a la ruleta de la suerte");
+			pw3.println("Bienvenido a la ruleta de la suerte");
+			pw1.print("El panel a resolver es: " );
+			pw2.print("El panel a resolver es " );
+			pw3.print("El panel a resolver es " );
+			pw1.println(palabraGuiones);
+			pw2.println( palabraGuiones);
+			pw3.println( palabraGuiones);
 			boolean estaLetra=false; //Para ver si la letra dicha por el jugador esta o no
 			boolean resolver=false; //Para ver si se ha resuelto bien el panel o no
 			boolean b=false;
+			boolean esvocal=false; //Para ver si es vocal
 			int turno=1; //Para ver que jugador tiene el turno
 			String linea = null;
 			
@@ -142,12 +148,15 @@ public class AtenderPeticion implements Runnable {
 					
 					for (int i=0; i<palabra.length();i++) {
 						if (palabra.charAt(i) == linea.charAt(0)) { //que este la letra introducida
-							//palabraGuiones +=palabra.charAt(i);
-							//palabraGuiones=palabraGuiones.replace(palabraGuiones.charAt(i), linea.charAt(0));
+							
 							palabraGuiones[i]=linea.charAt(0);
 							estaLetra=true;
-							if(linea.charAt(0)=='a'||linea.charAt(0)=='e'||linea.charAt(0)=='i'||linea.charAt(0)=='o'||linea.charAt(0)=='u') {
+							if((linea.charAt(0)=='a'||linea.charAt(0)=='e'||linea.charAt(0)=='i'||linea.charAt(0)=='o'||linea.charAt(0)=='u')&& esvocal==true) {
+								valor=0;
+							}
+							if((linea.charAt(0)=='a'||linea.charAt(0)=='e'||linea.charAt(0)=='i'||linea.charAt(0)=='o'||linea.charAt(0)=='u')&& esvocal==false) {
 								valor=-50;
+								esvocal=true;
 							}
 							if(turno==1) {
 								
@@ -234,7 +243,7 @@ public class AtenderPeticion implements Runnable {
 				pw2.println("Llevas acumulado "+ contador2 +" euros");
 				pw3.println("Llevas acumulado "+ contador3 +" euros");
 				
-				System.out.println("El panel a resolver es");
+				System.out.print("El panel a resolver es:  ");
 				System.out.println(palabraGuiones);
 				System.out.println("El jugador 1 lleva " + contador1 + "€");
 				System.out.println("El jugador 2 lleva " + contador2 + "€");
@@ -242,11 +251,38 @@ public class AtenderPeticion implements Runnable {
 				
 				if(String.valueOf(palabraGuiones).equals(palabra)) { //Si se ha resuelto el panel
 					b=true;
+					
 				}
 			}
-			pw1.println("----------FIN DEL PANEL----------"); 
-			pw2.println("----------FIN DEL PANEL----------"); 
-			pw3.println("----------FIN DEL PANEL----------");
+			if(turno==1) {
+				pw1.println("¡¡¡¡ENHORABUENA HAS RESUELTO EL PANEL!!!!"); 
+				pw1.println("¡¡¡¡HAS GANADO "+ contador1 +" EUROS!!!!"); 
+				pw2.println("----------FIN DEL PANEL: Has ganado 0 euros----------"); 
+				pw3.println("----------FIN DEL PANEL: Has ganado 0 euros----------");
+				pw3.println("El panel correcto era: "+palabra); 
+				pw2.println("El panel correcto era: "+palabra);
+			}
+			else {
+				if(turno==2) {
+					pw2.println("¡¡¡¡ENHORABUENA HAS RESUELTO EL PANEL!!!!"); 
+					pw2.println("¡¡¡¡HAS GANADO "+ contador2 +" EUROS!!!!"); 
+					pw1.println("----------FIN DEL PANEL: Has ganado 0 euros----------"); 
+					pw3.println("----------FIN DEL PANEL: Has ganado 0 euros----------");
+					pw1.println("El panel correcto era: "+palabra); 
+					pw3.println("El panel correcto era: "+palabra);
+				}
+				else {
+					if(turno==3) {
+						pw3.println("¡¡¡¡ENHORABUENA HAS RESUELTO EL PANEL!!!!"); 
+						pw3.println("¡¡¡¡HAS GANADO "+ contador3 +" EUROS!!!!"); 
+						pw2.println("----------FIN DEL PANEL: Has ganado 0 euros----------"); 
+						pw1.println("----------FIN DEL PANEL: Has ganado 0 euros----------");
+						pw1.println("El panel correcto era: "+palabra); 
+						pw2.println("El panel correcto era: "+palabra);
+					}
+				}
+			}
+			
 			System.out.println("----------FIN DEL PANEL----------");
 			System.out.println("----------LO HA RESUELTO EL JUGADOR "+ turno+"----------");
 		} catch (IOException e) {
