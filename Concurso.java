@@ -179,7 +179,7 @@ public class Concurso {
 					if(palabra.equals(linea)) {
 						b=true;
 						resolver=true;
-						System.out.println("Has acertado el panel.");
+						
 					}
 				}
 					
